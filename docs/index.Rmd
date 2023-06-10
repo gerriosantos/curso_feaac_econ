@@ -626,6 +626,14 @@ knitr::include_graphics('imagens/layers.png')
 
 3. Fazer um gráfico com a série de tempo de despesas per capita de 2013 a 2020.
 
+4. Importar dados da PNADc, as quais apresentam arquivos de coluna fixas (fixed width files).
+
+    4.1. Importar a base completa, com todas as variáveis.
+    
+    4.2 Importar apenas um conjunto de variáveis específica.
+
+
+
 ---
 
 ### Referências
