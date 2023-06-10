@@ -1,0 +1,14 @@
+.Rproj.user
+.Rprofile
+
+R/00-colinha.R
+
+renv.lock
+data-raw/
+data/
+renv/
+.Rhistory
+.Rdata
+.httr-oauth
+.DS_Store
+

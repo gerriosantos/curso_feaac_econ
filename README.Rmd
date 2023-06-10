@@ -1,0 +1,31 @@
+---
+title: "Ciência de Dados com R"
+author: "**Gerrio Barbosa**"
+
+#date: "`r format(Sys.Date(), format='%d/%m/%Y')`"
+encoding: "UTF-8"
+output:
+  #prettydoc::html_pretty:
+    #theme: architect
+    #highlight: github
+  github_document:
+    
+    #toc: true
+    #toc_depth: 2
+  
+---
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+# Material
+
+[Slides](https://gerriosantos.github.io/curso_feaac_econ/#1)
+
+[Dados](https://mega.nz/folder/wPImwY6Z#p0pNrKaFKQKoKU1-yrcl5g)

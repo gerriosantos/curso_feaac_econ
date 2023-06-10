@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Ciência de Dados com R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Dr. Gerrio Barbosa" />
+    <script src="libs/header-attrs-2.21/header-attrs.js"></script>
+    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+    <script src="libs/clipboard-2.0.6/clipboard.min.js"></script>
+    <link href="libs/shareon-1.4.1/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon-1.4.1/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain-0.2.6/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain-0.2.6/shareagain.js"></script>
+    <link href="libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <link href="libs/animate.css-3.7.2/animate.css" rel="stylesheet" />
+    <link href="libs/panelset-0.2.6/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset-0.2.6/panelset.js"></script>
+    <link href="libs/xaringanExtra-extra-styles-0.2.6/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-progressBar-0.0.1/progress-bar.js"></script>
+    <script src="libs/kePrint-0.0.1/kePrint.js"></script>
+    <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Ciência de Dados com R
+]
+.author[
+### Dr. Gerrio Barbosa
+]
+.date[
+### 19 de Março de 2023
+]
+
+---
+
+
+class: center, middle, animated slideInRight fadeOutLeft, animated slideInRight fadeOutLeft
+
+
+
+
+
+
+
+
+
+<div>
+<style type="text/css">.xaringan-extra-logo {
+width: 110px;
+height: 128px;
+z-index: 0;
+background-image: url(ofb.png);
+background-size: contain;
+background-repeat: no-repeat;
+position: absolute;
+right:1em;bottom:1em;
+}
+</style>
+<script>(function () {
+  let tries = 0
+  function addLogo () {
+    if (typeof slideshow === 'undefined') {
+      tries += 1
+      if (tries < 10) {
+        setTimeout(addLogo, 100)
+      }
+    } else {
+      document.querySelectorAll('.remark-slide-content:not(.title-slide):not(.inverse):not(.hide_logo)')
+        .forEach(function (slide) {
+          const logo = document.createElement('div')
+          logo.classList = 'xaringan-extra-logo'
+          logo.href = null
+          slide.appendChild(logo)
+        })
+    }
+  }
+  document.addEventListener('DOMContentLoaded', addLogo)
+})()</script>
+</div>
+
+
+
+
+
+
+
+
+
+<style>.xe__progress-bar__container {
+  top:0;
+  opacity: 1;
+  position:absolute;
+  right:0;
+  left: 0;
+}
+.xe__progress-bar {
+  height: 10px;
+  background-color: #194435;
+  width: calc(var(--slide-current) / var(--slide-total) * 100%);
+}
+.remark-visible .xe__progress-bar {
+  animation: xe__progress-bar__wipe 200ms forwards;
+  animation-timing-function: cubic-bezier(.86,0,.07,1);
+}
+@keyframes xe__progress-bar__wipe {
+  0% { width: calc(var(--slide-previous) / var(--slide-total) * 100%); }
+  100% { width: calc(var(--slide-current) / var(--slide-total) * 100%); }
+}</style>
+
+Para acessar esse documento:
+
+&lt;img src="index_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+class: center, middle, animated slideInRight fadeOutLeft, animated slideInRight fadeOutLeft
+
+# Introdução
+
+---
+
+# O que é o R?
+
+
+É uma linguagem de programação de computadores utilizada principalmente
+para manipulação de dados e visualização de gráficos. `R` é uma linguagem de código aberto criada em 1993 pelo departamento de Estatística da Universidade de Auckland (pelos estatísticos     **R**oss Ihaka e **R**obert Gentleman), Nova Zelândia, baseada na linguagem `S` (criada por John Chambers Rick Becker e Allan Wilks em 1976, na Bell Labs).
+
+O `R` é escrito principalmente em `C`, `C++` e `Fortran`, sendo disponível gratuitamente sob a licença GNU General Public e em vários sistemas operacionais como `MAC`, `Windows` e `Linux.`
+
+O `R` usa uma _Integrated Development Environment_ (IDE) própria, com interface não muito amigável. Porém, há algumas interfaces que podem ser integradas ao software que ajudam a melhorar o visual.
+
+
+---
+# Por que usar R?
+
+- _Open Source_:
+
+    - É grátis.
+    - Todos podem usar as mesmas ferramentas, independente de condições finaceiras e/ou sociais.
+    - Podemos desenvolver nossas próprias ferramentas.
+    - Podemos aprimorar ferramentas já disponíveis pela comunidade `R`.
+
+- Linguagem simples e fácil de entender.
+
+- Facilidade em se conectar a linguagens de programação de alto desempenho como `C`, `Fortran` e `C++`.
+
+- Possui grande comunidade, que é diversificada e acolhedora. 
+
+- Muitos pacotes.
+
+- Ferramentas poderosas como `Rmarkdown` e `shiny`.
+
+- Tem a IDE `Rstudio`, que facilita a interação com os dados.
+---
+class: center, middle, animated slideInRight fadeOutLeft, animated slideInRight fadeOutLeft
+
+# Instalação - R e RStudio
+---
+
+# Instalação para Windows
+
+- [Software R](https://cran.r-project.org/)
+
+- [RStudio Desktop](https://posit.co/download/rstudio-desktop/)
+
+# Instalação Linux e MacOs
+
+- [Linux](https://cran.r-project.org/)
+
+- [MacOS](https://cran.r-project.org/)
+
+# Livro da Curso-R
+
+- [Ciência de Dados em R](https://livro.curso-r.com/1-1-instalacao-do-r.html)
+
+---
+class: center, middle, animated slideInRight fadeOutLeft
+
+# Gerenciar Diretórios
+
+---
+# Uso de pastas no computador
+
+
+
+```r
+getwd() # Busca o diretório atual sendo utilizado.
+
+setwd() # Escolhe um diretório para ser utilizado.
+
+dir() # Lista arquivos dentro de um diretório.
+
+dir.create() # Cria diretório
+file.create() # Cria arquivo
+```
+
+- Esse é o método não recomendável.
+
+---
+
+# Criar projeto no R
+
+- Isola do ambiente de trabalho
+
+- Facilita colaboração
+
+- Reprodutibilidade
+
+- Gerenciamento de pacotes
+
+- Organização e documentação dos códigos
+
+---
+
+&lt;img src="imagens/rproject_.jpeg" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle, animated slideInRight fadeOutLeft
+
+# Operações Básicas no R
+
+---
+
+# Operações Principais
+
+&lt;table class="table" style="font-size: 16px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; Operador &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Descrição &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; + &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Adição &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; - &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Subtração &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; * &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Multiplicação &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; / &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Divisão &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; : &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Sequência &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; ^ &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Exponencial &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; %% &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Módulo &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; == &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Igualdade &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; &amp;gt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; "Maior que" &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; &amp;lt; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; "Menor que" &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; &amp;lt;= &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; "Menor ou igual que" &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; %in% &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; "Está contido" &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; &amp;amp; &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; E &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; | &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; OU &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+---
+
+# Objetos
+
+- Basicamente, é um nome que guarda um valor.
+
+
+```r
+meu_objeto &lt;- 1
+```
+
+
+```r
+meu_objeto + 2
+```
+
+```
+## [1] 3
+```
+
+- Não usar em nomes de objetos:
+
+    - números (por exemplo, `1teste`)
+    - alguns simbolos especiais, como `^`, `!`, `$`, `@`, `+`, `-`, `/`, `*`
+    - Espaços em nomes compostos de objetos, como `vetor 1`, `vetor 2`
+    - Palavras reservadas, como por exemplo `if`, `for`, etc.
+
+- `R` é _case-sensitive_ (diferencia minúscula de maiúscula).
+---
+class: center, middle, animated slideInRight fadeOutLeft
+
+# Estrutura de Dados
+
+
+---
+# Vetores
+
+- Armazenam elementos unidimensionais de mesmo tipo de dados, como `numeric`, `logical`, `character`.
+
+
+```r
+c(2, 3, 4)
+2:4
+c('a', 'b', 'c')
+c(T, F, T)
+```
+
+
+```r
+seq(2, 5, by = 1)
+seq(2, 5, by = 0.5)
+rep(1:3, times = 2)
+rep(1:3, each =  2)
+# Combinando as duas funções
+rep(seq(2,3, 0.5), times = 2)
+```
+
+---
+# Listas
+
+- As listas contém elementos/dados de diferentes tipos e dimensões. Uma lista pode conter um vetor de `numeric`, `character`, `data.frame` e uma outra `list`. 
+
+
+
+
+```r
+list(c(1,2), c('a', 'b', 'c'), data.frame(a = c(1,2,3), b = c('a', 'b', 'c')))
+```
+
+---
+class: center, middle, animated slideInRight fadeOutLeft
+
+# Introdução a Ciência de Dados
+---
+
+# Ciclo de Ciência de Dados
+
+&lt;img src="imagens/data-science.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+
+---
+class: center, middle, animated slideInRight fadeOutLeft
+
+# R Base
+
+---
+
+- A funcionalidade do **`R`** é dividida em vários pacotes:
+
+    - **`R base`** _package_  com as funções fundamentais.
+
+    - Outros pacotes contidos no sistema **`R base`**: `utils`, `stats`, `datasets`, `graphics`, `grDevices`, `grid`, `methods`, `tools`, `parallel`, `compiler`, `splines`, `tcltk`, `stats4`.
+    
+    - Pacotes "recomendados": `boot`, `class`, `cluster`, `codetools`, `foreign`, `KernSmooth`, `lattice`, `mgcv`, `nlme`, `rpart`, `survival`, `MASS`, `spatial`, `nnet`, `Matrix`.
+    
+
+
+```r
+sqrt(x = 16)
+
+unique(x = c(1,2,1,2,2,2,4,4))
+
+log(1)
+
+plot(x = rnorm(n = 1000, mean = 250, sd = 50))
+```
+
+
+---
+
+## Acessar Help
+
+
+
+```r
+# Procura documentação da função e seus argumentos
+
+help(mean)
+?mean
+
+# Procura pelo nome (string) na documetação do R
+help.search('mean')
+
+# Procurar pacote
+help(package = 'dplyr')
+
+# Acessar funções do pacote usando `::`
+
+dplyr::select()
+```
+---
+
+
+## Usar Pacotes
+
+
+```r
+# Carregando o pacote
+&gt; library(dplyr)
+Error in library(dplyr) : there is no package called ‘dplyr’
+```
+
+
+
+```r
+# Download para baixar pacotes
+install.packages('dplyr')
+
+# Carregando o pacote
+library(dplyr)
+
+# Usar uma função particular de um pacote
+dplyr::select()
+
+# Baixar bases de dados já existentes no R
+data(iris)
+iris
+```
+---
+&lt;img src="imagens/tidyverse.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+# tibble
+
+- Um `data.frame()` melhorado. A função `tibble` permite melhor visualização dos dados no console.
+
+
+- Variáveis
+
+- Observações
+
+- Valores
+
+- Uma `tibble` pode ser transformada em `data.frame` e vice-versa. Para isso, usam-se as funções `as.data.frame` e `as_tibble`, respectivamente.
+
+
+
+
+
+---
+# readr, readxl, openxlsx
+
+
+.pull-left[
+
+
+```r
+# readr
+read_csv()
+
+read_csv2()
+
+read_delim()
+
+read_rds()
+
+# readxl
+read_xlsx()
+
+read_xls()
+
+#openxlsx
+read.xlsx()
+```
+
+
+]
+
+
+.pull-right[
+
+
+```r
+# readr
+write_csv()
+
+write_csv2()
+
+write_delim()
+
+write_rds()
+
+# writexl
+
+write_xlsx()
+
+# openxlsx
+write.xlsx()
+```
+
+]
+
+- **Mostrar exemplo no R**
+
+
+---
+# dplyr
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Verbos &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Funções &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; mutate &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; cria novas colunas, mantendo as existentes &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; rename &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; renomea colunas de interesse &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; select &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; seleciona colunas de interesse &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; filter &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; seleciona um subconjunto de dados (linhas) por condições &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; group_by &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; realiza agrupamentos de variáveis &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; summarise &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; condensa múltiplos valores para um ´unico valor, redução de dimensão &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; arrange &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; reordena linhas (Obs.: Usa .locale = &amp;quot;pt_BR&amp;quot;, para considerar as palavras acentuadas) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; *_join &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; junções de tabelas (left, right, inner, full...) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; relocate &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; reordena a posição das coluna &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; across &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; realiza transformações com mais de uma coluna ao mesmo tempo &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; distinct &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; filtra linhas com valores distintos/unicos &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+---
+
+## `filter()`
+
+- filtrando linhas
+
+
+```r
+filter(df, sigla_uf ==  'CE' &amp; nome = 'Coreaú')
+
+filter(df, sigla_uf ==  'CE' &amp; sigla_uf = 'PB')
+
+filter(df, sigla_uf %in% c('CE', 'PB'))
+```
+
+
+---
+
+
+## `select()`
+
+- selecionando variáveis
+
+
+```r
+select(df, var1, var2, var3, var4, var5)
+
+select(df, c(var1, var2))
+
+select(df, var1:var3)
+
+select(df, !c(var1:var3))
+
+select(df, ends_with('3'))
+
+select(df, contains('2'))
+
+select(df, starts_with("var") &amp; !ends_with("4"))
+```
+
+- O `select()` também permite renomear. 
+
+
+
+```r
+select(df, nome_novo = var1, var2, var3, var4, var5)
+```
+
+---
+## `rename()`
+
+ - As linhas não são afetadas.
+
+ - Os nomes das colunas são alterados; a ordem das colunas é preservada.
+
+- Os atributos do quadro de dados são preservados.
+
+- Os grupos são atualizados para refletir os novos nomes.
+
+
+```r
+rename(df, nome_novo = nome_antigo)
+```
+
+---
+
+## `mutate()`
+
+- Criando novas colunas
+
+
+```r
+mutate(df, ddd1 = ifelse(ddd == 88, 1, 0))
+
+mutate(df, valor_1 = valor / 1000000000)
+```
+
+
+
+```r
+# Uso da função lambda
+mutate(df, across(.cols = everything(), ~ .fns = as.character(.x)))
+```
+---
+
+## `group_by` e `summarise`
+
+- Essas funções são, na maioria das vezes, usadas conjuntamente. O `group_by` faz agregações e o `summarise` faz resumos (por exemplo, médias de valores) ao nível do agrupamento que foi escolhido (por exemplo, por ano, estado, etc.) 
+
+
+
+```r
+df |&gt; group_by(sigla_uf) |&gt; 
+  summarise(n = n(),
+            media = mean(valor),
+            sd = sd(valor))
+```
+
+- Usando `across`
+
+
+```r
+df |&gt; 
+  group_by(sigla_uf) |&gt; 
+  summarise(
+    n = n(),
+    
+    across(
+      .cols = c(nota_saeb_lp, nota_saeb_mt),
+      ~ .fns = mean(.x, na.rm = TRUE))
+    
+  )
+```
+
+
+---
+# tidyr
+
+
+```r
+# Dados longitudinal para cross-section
+pivot_wider(df, names_from = ano, values_from = nota_mt)
+```
+
+
+```r
+# cross-section para longitudinal
+pivot_longer(df, cols = -id_municipio, names_to = 'ano', values_to = 'notas_mt')
+```
+
+
+
+```r
+# Apagando os NAs
+df |&gt; 
+  drop_na()
+
+df |&gt; 
+  drop_na(var1, var1)
+```
+
+---
+# ggplot2
+
+&lt;img src="imagens/layers.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+
+- [The R Graph Gallery](https://r-graph-gallery.com/)
+
+
+
+---
+
+# Miscelânea 
+
+1. Juntar as bases do Finbra e Inep, com as colunas de despesa com educação e Ideb e fazer um gráfico scatter plot para analisar a relação entre despesa e qualidade do ensino no ano de 2019.
+
+2. Fazer um mapa dos municípios do estado do Ceará com Ideb e outro com a despesa per capita com educação para o ano de 2019.
+
+3. Fazer um gráfico com a série de tempo de despesas per capita de 2013 a 2020.
+
+---
+
+### Referências
+
+- [R for Data Science](https://r4ds.had.co.nz/)
+
+- [Ciência de Dados em R](https://livro.curso-r.com/index.html)
+
+- [Usando R nas Ciências Sociais](https://robsonol.github.io/workshop_r_ciencias_sociais/#/title-slide)
+
+
+
+
+
+
+
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "18:10",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
