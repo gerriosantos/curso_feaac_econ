@@ -1,4 +1,11 @@
+
+
+
+
 # Miscelânia ------------------------------------------------------------------
+
+library(tidyverse)
+
 
 # 1) Despesa Educ vs Ideb
 
@@ -46,9 +53,16 @@ g1 <- ggplot(data = df, mapping = aes(x = ideb, y = desp_per_capita))+
   geom_point(color = 'blue', size = 3)+
   theme_bw()
 
+
+
 # Fazer um mapa ----
 
+# install.packages('geobr')
+
 library(geobr)
+library(sf)
+
+
 
 geom <- read_municipality(year = 2019) |>
   filter(abbrev_state == 'CE') |>
@@ -56,8 +70,11 @@ geom <- read_municipality(year = 2019) |>
   mutate(id_municipio = as.character(id_municipio))
 
 
+
+
 df_1 <- left_join(df, geom, by = 'id_municipio') |>
-  sf::st_as_sf()
+  st_as_sf() # funcao do pacote sf que torna essa base compativel com analise de mapas
+
 
 
 g2 <- ggplot(df_1, aes(fill = desp_per_capita))+
@@ -80,25 +97,35 @@ pop <- read_rds('data-raw/pop.rds') |>
 
 
 ff <- read_rds('data-raw/finbra_mun.rds') |>
-  filter(ano %in% c(2010:2020), estagio == 'Despesas Empenhadas',
+
+  filter(ano %in% c(2013:2020), estagio == 'Despesas Empenhadas',
          str_detect(string = id_conta_bd, pattern = "3.12.000")
   ) |>
   select(ano, id_municipio, valor) |>
+
   left_join(pop, by = c('ano', 'id_municipio')) |>
-
   group_by(ano) |>
-  summarise(
-    across(c(valor, populacao), ~ mean(.x, na.rm = TRUE))
-  ) |>
-
-  mutate(desp_per_capita = round(valor/populacao, 2))
+  summarise(valor = mean(valor, na.rm = TRUE),
+            pop = sum(populacao, na.rm = TRUE)) |>
+  mutate(desp_per_capita = round(valor/pop, 2))
 
 
-g3 <- ggplot(ff, aes(x = ano, y = desp_per_capita))+
+library(scales)
+
+
+g3 <- ggplot(data = ff, aes(x = ano, y = desp_per_capita)) +
   geom_line(size = 1, color = 'blue')+
-  geom_point(size = 3, color = 'red')+
+  geom_point(color = 'blue', size = 3)+
+  theme_minimal()+
   scale_x_continuous(breaks = seq(2013, 2020, 1))+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(
+    n.breaks = 8,
+    labels = label_comma(decimal.mark = ',', big.mark = '.',
+                         prefix = 'R$ '))+
+
+  labs(title = 'Evolução das Despesas com Educ - CE',
+       x = NULL, y = 'Despesa com Educação Per Capita')
+
 
 
 # salvar os graficos
@@ -106,19 +133,28 @@ g3 <- ggplot(ff, aes(x = ano, y = desp_per_capita))+
 
 lista_graf <- list(g1, g2, g3)
 
-file_name <- c('g1', 'g2', 'g3')
+file_name <- c('g1.pdf', 'g2.pdf', 'g3.pdf')
 
 
 
-walk2(
-  lista_graf,  file_name,
-  ~ ggsave(filename = glue::glue('{.y}.pdf'), plot = .x, path = 'figures',
-           device = cairo_pdf, width = 10, height = 7, scale = 2))
+# Salvar os gráficos em pdf
+
+walk2(.x = lista_graf, .y = file_name,
+      .f = ~ ggsave(filename = .y, plot = .x, path = 'figures',
+                    device = cairo_pdf, width = 10, height = 8, scale = 0.7)
+)
 
 
-# PNG
+
+# Salvar os gráficos em PNG
 # ggsave(filename = glue::glue('{.y}.png'), plot = .x, path = 'figures',
 #        device = 'png',
 #        width = 1280, height = 720, units = 'px',
 #        scale = 3)
+
+
+
+
+
+
 

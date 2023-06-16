@@ -8,7 +8,7 @@
 # Coluna Fixa
 
 
-read_fwf(file = 'data-raw/PNADC_012023.txt', col_positions = )
+
 
 
 
@@ -21,10 +21,13 @@ library(tidytext)
 source('functions/00-funcao_limpeza_texto.R')
 
 
+
+
 # Retirando todas as variáveis ----
 
 
-d <- readxl::read_xls('data-raw/dicionario_PNADC_microdados_trimestral.xls',skip = 1) |>
+d <- readxl::read_xls('data-raw/dicionario_PNADC_microdados_trimestral.xls',
+                      skip = 1) |>
   dplyr::select(2, 3, nome = `...5`) |>
   janitor::clean_names() |>
   dplyr::mutate(nome = coalesce(nome, codigo_da_variavel),
@@ -43,15 +46,19 @@ d <- readxl::read_xls('data-raw/dicionario_PNADC_microdados_trimestral.xls',skip
 
 
 tam <- d |> pull(tamanho)
-names <- d |> pull(nome_var)
+names <- d |> pull(codigo_da_variavel)
 
 library(readr)
 
+# Funcao par pegar as posicoes da pnad
 pos <- fwf_widths(widths = tam, col_names = names)
 
+df <- read_fwf('data-raw/PNADC_012023.txt', col_positions = pos)
 
-df <- read_fwf('data-raw/PNADC_012023.txt', col_positions = pos) |>
-  janitor::clean_names()
+
+df_1 <- df |>
+  janitor::clean_names() |>
+  select(ano, trimestre)
 
 
 
@@ -79,24 +86,35 @@ fwpos<-function(x){
 }
 
 
+
 pes<-read_fwf("data-raw/PNADC_012023.txt", col_positions = fwpos(lpes))
+
+
 
 
 # Utilizando tibble -- FÁCIL ----
 
-pos <- tibble(
-  col_names=c("ano","uf", 'situacao_dom',
-             "sexo",
+
+
+pos1 <- tibble(
+  col_names = c("ano","uf", 'situacao_dom', "sexo",
              "cor_raca"),
-  posicao=c(1, 6, 33, 95, 107),
-  tamanho=c(4, 2, 1, 1, 1)
+  posicao = c(1, 6, 33, 95, 107),
+  tamanho = c(4, 2, 1, 1, 1)
 ) |>
   mutate(begin = posicao - 1, end = (posicao + tamanho) - 1) |>
   select(- c(posicao, tamanho))
 
 
 
-pes<-read_fwf("data-raw/PNADC_012023.txt", col_positions = pos,
+df2 <- read_fwf("data-raw/PNADC_012023.txt", col_positions = pos1,
               progress = T)
+
+
+
+
+
+
+
 
 
